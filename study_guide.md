@@ -27,14 +27,20 @@
     - [Size of the Margin](#size-of-the-margin)
     - [Kernels](#kernels)
   - [Ensemble Classifiers](#ensemble-classifiers)
-  - [Bagging - Bootstrap Appregation](#bagging---bootstrap-appregation)
-  - [Boosting](#boosting)
+    - [Voting](#voting)
+    - [Resampling](#resampling)
+    - [Bagging - Bootstrap Appregation](#bagging---bootstrap-appregation)
+    - [Boosting](#boosting)
+      - [Adaboost](#adaboost)
+      - [Random Forest](#random-forest)
+    - [*Ways To Establish Diversity](#ways-to-establish-diversity)
   - [K Means++](#k-means)
-    - [cluster initiation](#cluster-initiation)
+    - [Cluster Initiation](#cluster-initiation)
     - [furthest first](#furthest-first)
     - [probabilistic selection of cluster means](#probabilistic-selection-of-cluster-means)
   - [Dimensionality Reduction](#dimensionality-reduction)
-    - [Principal component analysis, Principal components](#principal-component-analysis-principal-components)
+    - [Principal component analysis (PCA)](#principal-component-analysis-pca)
+    - [Principal components](#principal-components)
     - [Minimize data distance to line](#minimize-data-distance-to-line)
     - [maximize distance of projected points to origin](#maximize-distance-of-projected-points-to-origin)
     - [selecting components](#selecting-components)
@@ -45,7 +51,7 @@
     - [logistic regression](#logistic-regression-1)
     - [decision tree](#decision-tree)
     - [knn](#knn)
-    - [random forest](#random-forest)
+    - [random forest](#random-forest-1)
     - [neural network](#neural-network)
     - [k means](#k-means-1)
     - [boosting](#boosting-1)
@@ -207,7 +213,7 @@ h_i <- tanh(w_i + x_hat)
 
 ## Ensemble Classifiers
 
-- Voting
+### Voting
   - Combine multiple classifiers.
   - Classifiers are each learning a function
   - Each model is trained independently then we use the models (base classifiers) to predict a class label through voting
@@ -220,7 +226,7 @@ h_i <- tanh(w_i + x_hat)
     - N based classifiers, errors are uncorrelated, error rate is ε
 ![](resources/ensemble_classifiers/image20.png)
 
-- Resampling
+### Resampling
   - You copy a subset of data from the original data set
   - It is possible to copy the same data twice
   - The new data set is sampled from the original, so they are all valid training points
@@ -230,7 +236,7 @@ h_i <- tanh(w_i + x_hat)
 
 ---
 
-## Bagging - Bootstrap Appregation
+### Bagging - Bootstrap Appregation
 - Start with training data set D with N examples
 - Use sampling with replacement to create M datasets D1, .. , Dm
   - Each has size N
@@ -243,28 +249,68 @@ h_i <- tanh(w_i + x_hat)
 
 ---
 
-## Boosting
+### Boosting
+- Weak learners (slightly better than random) become strong through adaptation
+- Focuses on assigning more weights to data that was previously misclassified by tha algorithm, so the weak learners become stronger
+- Homogeneous weak learners, learns them sequentially in a very adaptive way (a base model depends on the previous ones) and combines them following a deterministic strategy
 
+#### Adaboost
+  - Specific implementation of boosting
+  - Assigns higher weights to the difficult to classify instances
+  - Works well with decision trees. It learns from previous mistakes i.e. misclassifications of data points
+
+#### Random Forest
+  - Consists of many decision trees operating in an ensample
+  - Each individual tree in the random forest returns a class prediction and the class with the most votes becomes our model's prediction
+  - Uses a variety of instances from a set and then runs different trees on the data
+  - Final classifications is found through the voting of each of the trees
+
+### *Ways To Establish Diversity
+- we use ensemble learning to establish diversity by allowing for multiple models to be simultaneously or for data to be more precise so that we are able to use high variance individual models that produce overall results from a low variance ensemble.
 
 ## K Means++
+>K-means, but we are normalizing the computed distances to the probability distribution before picking another example to calculate distances from
 
-### cluster initiation
+### Cluster Initiation
+> Most important choice in running k-means is where to start the means for the clusters.
+![](resources/kmeans/image8.png)
+
 
 ### furthest first
+- instead of starting initial k-points at random points, we can start with points that are each the farthest away from each other
+-  these points will probably be closer to the centers of some respective clusters. 
+- This should reduce how many cycles we need to run this algorithm to find the means
 
 ### probabilistic selection of cluster means
+- Distances from points to means are computed, then the distances are all normalized to a probability distribution
+- The random sample can be picked from these normalized points
+- Then, a new mean is chosen
 
 ---
 
 ## Dimensionality Reduction
+> Process of reducing the number of random variable under consideration by creating a set of principle variables
 
-### Principal component analysis, Principal components
+### Principal component analysis (PCA)
+- calculate new points with the averages over the given points
+- then, compute covariance
+- then, find the line with the best fit for data
+
+### Principal components
+    
 
 ### Minimize data distance to line
+- A strategy in PCA
+- to test the fit of a line to the data, we project data points onto the feature space
+- we want to find the line that has the min distance between points and the line, to be the closest fit to the data
 
 ### maximize distance of projected points to origin
+- A strategy in PCA
+- to adjust a line to describe the data, we can try to find the line that maximizes the distances from the projected data points onto it, and the origin.
 
 ### selecting components
+> by using strategies like PCA
+
 
 ### *Visualization of first component, additional components
 
