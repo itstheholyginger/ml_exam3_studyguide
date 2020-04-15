@@ -27,6 +27,8 @@
     - [Size of the Margin](#size-of-the-margin)
     - [Kernels](#kernels)
   - [Ensemble Classifiers](#ensemble-classifiers)
+  - [Bagging - Bootstrap Appregation](#bagging---bootstrap-appregation)
+  - [Boosting](#boosting)
   - [K Means++](#k-means)
     - [cluster initiation](#cluster-initiation)
     - [furthest first](#furthest-first)
@@ -46,7 +48,7 @@
     - [random forest](#random-forest)
     - [neural network](#neural-network)
     - [k means](#k-means-1)
-    - [boosting](#boosting)
+    - [boosting](#boosting-1)
     - [svm](#svm)
 
 ## Logistic Regression
@@ -97,7 +99,7 @@ h_i <- tanh(w_i + x_hat)
     > In this example, the expected value was 0 (see table in first step). 0 - 0.039 = -0.039
 
 ### Backward Propagation to Compute Weights
-- Backpropagation is a procedure to repeatedly adjust the weights of a multilayer perceptron to minimize the difference between actual output and desired output
+> Backpropagation is a procedure to repeatedly adjust the weights of a multilayer perceptron to minimize the difference between actual output and desired output
 - ```backpropagation = gradient descent + chain rule```
 - ``` e_n(error on the nth example) = y_n - summation(h_i * x_i)```
 
@@ -169,26 +171,80 @@ h_i <- tanh(w_i + x_hat)
 ---
 
 ## Support Vector Machines (SVM)
+>A supervised learning algorithm that can be used for classification and regression problems. To classify data, support vector machines make hyperplanes that best separate the data into different domains to classify it.
 
 ### Constrained Optinizations
+> The problem that SVM's are dealing with. We want to optimize the hyperplane dividing the data with the largest margin possible, but we are constrained by making sure that there are no data points that are on the hyperplane, but are separated by the margin.
+![](resources/svm/image4.png)
 
 ### *Hard Margin
+> Cannot handle any outliers. Uses a slack parameter from each class to create the margin, but any points not within the correct area will be incorrectly classified
 
 ### *Soft Margin
+> Can handle outliers. Will skip a few when creating margins and selecting slack parameters, using Zeta( ζ ) as a parameter to classify problems that are 'almost' linearly separable
 
 ### *Role of Hyperparameter in Overfitting and Underfitting
+- The more outliers we ignore, the more prone we are to underfitting
+- The more outliers we take into account, the closer we are to overfitting
 
 ### Slack Parameters
+> The points closest to the hyperplane
+- margin = distance from the vector points to the hyperplane
+![](resources/svm/image5.png)
 
 ### Size of the Margin
+> The larger the generally better the classification
+![](resources/svm/image19.png)
+![](resources/svm/image17.png)
 
 ### Kernels
+> The main hyperparameter for SVMs
+- This is how features are mapped onto some dimensional space
+- A function
+- Can use linear or polynomial functions, since some will work better than others in different feature space
 
 ---
 
 ## Ensemble Classifiers
 
+- Voting
+  - Combine multiple classifiers.
+  - Classifiers are each learning a function
+  - Each model is trained independently then we use the models (base classifiers) to predict a class label through voting
+    - On test example, everything gets a vote
+    - More +1 than -1: output positive otherwise negative
+  - Classifiers don't make the same over and over again. In the picture, because more models choose -1, the ensemble will choose -1
+  - Why use a team of classifiers?
+    - They tend to make different kinds of errors which gices higher accuracy overall. Usually the classifiers that make the wrong decisions gen outvoted.
+    - Prefer classifiers with high variance, as usually the collective anser from the base classifiers will be correct.
+    - N based classifiers, errors are uncorrelated, error rate is ε
+![](resources/ensemble_classifiers/image20.png)
+
+- Resampling
+  - You copy a subset of data from the original data set
+  - It is possible to copy the same data twice
+  - The new data set is sampled from the original, so they are all valid training points
+  - They will evaluate some of the same statistical properties as the original dataset
+  - Way to get multiple sets of data that resemble the original distribution
+![](resources/ensemble_classifiers/image9.png)
+
 ---
+
+## Bagging - Bootstrap Appregation
+- Start with training data set D with N examples
+- Use sampling with replacement to create M datasets D1, .. , Dm
+  - Each has size N
+  - Train separate classifier
+  - On each training set
+  - Combine (vote)
+- Used to reduce the variance for those algorithms that have high variance. Ex decision and regression trees.
+- Homogenous weak learners, learns them independently from each other in parallel and combines them following some kind of deterministic averaging process
+
+
+---
+
+## Boosting
+
 
 ## K Means++
 
