@@ -1,5 +1,54 @@
 # Machine Learning Exam 3 Study Guide
 
+- [Machine Learning Exam 3 Study Guide](#machine-learning-exam-3-study-guide)
+  - [Logistic Regression](#logistic-regression)
+    - [Classification](#classification)
+    - [*Loss Function](#loss-function)
+    - [Compare with Linear Regression](#compare-with-linear-regression)
+  - [Multi-Layered Neural Networks](#multi-layered-neural-networks)
+    - [Loss functions](#loss-functions)
+    - [Tanh Activation Function and Motivation](#tanh-activation-function-and-motivation)
+    - [* Forward Propagation to compute output](#ul-liforward-propagation-to-compute-outputli-ul)
+      - [Steps w/ Example:](#steps-w-example)
+    - [Backward Propagation to Compute Weights](#backward-propagation-to-compute-weights)
+      - [Steps w/ Example](#steps-w-example-1)
+    - [Inductive Bias](#inductive-bias)
+    - [* Hyperparameters and Impact on Underfitting/Overfitting](#ul-lihyperparameters-and-impact-on-underfittingoverfittingli-ul)
+  - [Deep Networks - Large Neural Networks](#deep-networks---large-neural-networks)
+  - [Convolutional Neural Networks](#convolutional-neural-networks)
+    - [Convolution](#convolution)
+    - [Pooling](#pooling)
+  - [Support Vector Machines (SVM)](#support-vector-machines-svm)
+    - [Constrained Optinizations](#constrained-optinizations)
+    - [*Hard Margin](#hard-margin)
+    - [*Soft Margin](#soft-margin)
+    - [*Role of Hyperparameter in Overfitting and Underfitting](#role-of-hyperparameter-in-overfitting-and-underfitting)
+    - [Slack Parameters](#slack-parameters)
+    - [Size of the Margin](#size-of-the-margin)
+    - [Kernels](#kernels)
+  - [Ensemble Classifiers](#ensemble-classifiers)
+  - [K Means++](#k-means)
+    - [cluster initiation](#cluster-initiation)
+    - [furthest first](#furthest-first)
+    - [probabilistic selection of cluster means](#probabilistic-selection-of-cluster-means)
+  - [Dimensionality Reduction](#dimensionality-reduction)
+    - [Principal component analysis, Principal components](#principal-component-analysis-principal-components)
+    - [Minimize data distance to line](#minimize-data-distance-to-line)
+    - [maximize distance of projected points to origin](#maximize-distance-of-projected-points-to-origin)
+    - [selecting components](#selecting-components)
+    - [*Visualization of first component, additional components](#visualization-of-first-component-additional-components)
+  - [Overall: highlights of algorithms, *compare and contrast](#overall-highlights-of-algorithms-compare-and-contrast)
+    - [NBC](#nbc)
+    - [linear regression](#linear-regression)
+    - [logistic regression](#logistic-regression-1)
+    - [decision tree](#decision-tree)
+    - [knn](#knn)
+    - [random forest](#random-forest)
+    - [neural network](#neural-network)
+    - [k means](#k-means-1)
+    - [boosting](#boosting)
+    - [svm](#svm)
+
 ## Logistic Regression
 
 ### Classification
@@ -54,9 +103,14 @@ h_i <- tanh(w_i + x_hat)
 
 #### Steps w/ Example
 1. Compute gradient change for weights from hidden to output nodes (```g = eh```) and new heights
+    > There is a mistake in the below equation. should be
+    ``` 
+    g(left) -= 0 - 0.039*0.5005 = 0.195
+    weight(left) = 0.35 - 0.0195 = 0.33
+    ```
     ![](resources/multilayered_nn/image26.png)
+    > below equation = 0.817
     ![](resources/multilayered_nn/image22.png)
-    > above equation = 0.817
 2. Compute new weights from input to hidden 
     ![](resources/multilayered_nn/image25.png)
     ![](resources/multilayered_nn/image15.png)
@@ -86,38 +140,98 @@ h_i <- tanh(w_i + x_hat)
 ---
 ## Deep Networks - Large Neural Networks
 
----
-## Convolutional Neural Networks
+- Is a subset of machine learning where artificial neural networks, algorithms inspired by the human brain, learn from large amounts of data.
+  - Similarly to how we learn from experience, the deep learning algorithm would perform a task repeatedly, each time tweaking it a little to improve the outcome
+- 'Deep' learning because the neural networks have various layers that enable learning
+![](resources/deep_networks/image16.png)
+- requires a lot of data
+![](resources/deep_networks/image2.png)
 
 ---
+
+## Convolutional Neural Networks
+- Mostly used for image classification
+- a CNN has inner convolutional layers, as well as non-convolutional layers
+  - the convolutional transforms input in a convolution operation
+- Has a specialization to picking up patterns
+  - The convolutional layers use filters to detect patterns
+  - The deeper the layers, the more sophisticated these patterns are, i.e. detecting certain edges, shapes, colors, eyes, ears, scales, hair, and even full objects depending on how deep the layer is
+
+
+### Convolution
+- in mathematics, convolution is a mathematical operation on two functions that produce a third function expressing how the shape of one is modified by the other
+
+### Pooling 
+- pooling layers, also known as mean pooling or max pooling
+  - using a grid example, one could use the mean (or max) balue of a particular feature over a reagion of the image. The new grid is a lot smaller and has much lower dimensions
+![](resources/convolutional_nn/image23.png)
+
+---
+
+## Support Vector Machines (SVM)
+
+### Constrained Optinizations
+
+### *Hard Margin
+
+### *Soft Margin
+
+### *Role of Hyperparameter in Overfitting and Underfitting
+
+### Slack Parameters
+
+### Size of the Margin
+
+### Kernels
+
+---
+
 ## Ensemble Classifiers
 
 ---
+
 ## K Means++
 
 ### cluster initiation
+
 ### furthest first
+
 ### probabilistic selection of cluster means
+
 ---
+
 ## Dimensionality Reduction
 
 ### Principal component analysis, Principal components
+
 ### Minimize data distance to line
+
 ### maximize distance of projected points to origin
+
 ### selecting components
+
 ### *Visualization of first component, additional components
 
 ---
+
 ## Overall: highlights of algorithms, *compare and contrast
 
 ### NBC
 
 ### linear regression
+
 ### logistic regression
+
 ### decision tree
+
 ### knn
+
 ### random forest
+
 ### neural network
+
 ### k means
+
 ### boosting
+
 ### svm
