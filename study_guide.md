@@ -36,8 +36,8 @@
     - [*Ways To Establish Diversity](#ways-to-establish-diversity)
   - [K Means++](#k-means)
     - [Cluster Initiation](#cluster-initiation)
-    - [furthest first](#furthest-first)
-    - [probabilistic selection of cluster means](#probabilistic-selection-of-cluster-means)
+    - [furthest first heuristic](#furthest-first-heuristic)
+    - [Probabilistic Selection of Cluster Means](#probabilistic-selection-of-cluster-means)
   - [Dimensionality Reduction](#dimensionality-reduction)
     - [Principal component analysis (PCA)](#principal-component-analysis-pca)
     - [Principal components](#principal-components)
@@ -270,18 +270,35 @@ h_i <- tanh(w_i + x_hat)
 
 ## K Means++
 >K-means, but we are normalizing the computed distances to the probability distribution before picking another example to calculate distances from
+- kmeans guarantied to converge, but not to find optimal solution
+
+Goal: ![](resources/kmeans/Screenshot%20from%202020-04-15%2000-06-39.png)
+
+Alg: ![](resources/kmeans/Screenshot%20from%202020-04-15%2000-18-58.png)
+>k-means++ is never more than O(log k) away from optimal, and it is sometimes nearly O(1)
+
 
 ### Cluster Initiation
 > Most important choice in running k-means is where to start the means for the clusters.
 ![](resources/kmeans/image8.png)
 
 
-### furthest first
+### furthest first heuristic
+- refined how kmeans initializes clusters centers
+  - tries to spread centers apart
+
+![](resources/kmeans/Screenshot%20from%202020-04-15%2000-12-18.png)
 - instead of starting initial k-points at random points, we can start with points that are each the farthest away from each other
 -  these points will probably be closer to the centers of some respective clusters. 
 - This should reduce how many cycles we need to run this algorithm to find the means
 
-### probabilistic selection of cluster means
+> Steps to find initial centers with furthest first heuristic:
+> 1. Choose random point for first point
+> 2. Choose point that is the furthest away from first point
+> 3. Choose point that is furthest away from first two points
+> 4. Continue k times until all points are plotted
+
+### Probabilistic Selection of Cluster Means
 - Distances from points to means are computed, then the distances are all normalized to a probability distribution
 - The random sample can be picked from these normalized points
 - Then, a new mean is chosen
