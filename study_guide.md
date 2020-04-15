@@ -46,7 +46,9 @@
     - [selecting components](#selecting-components)
     - [*Visualization of first component, additional components](#visualization-of-first-component-additional-components)
   - [Overall: highlights of algorithms, *compare and contrast](#overall-highlights-of-algorithms-compare-and-contrast)
-    - [NBC](#nbc)
+    - [Naive Bayes Classifier (NBC)](#naive-bayes-classifier-nbc)
+      - [From my last study guide:](#from-my-last-study-guide)
+      - [Gaussian naïve Bayes, Laplace smoothing, NBC for text mining](#gaussian-na%c3%afve-bayes-laplace-smoothing-nbc-for-text-mining)
     - [linear regression](#linear-regression)
     - [logistic regression](#logistic-regression-1)
     - [decision tree](#decision-tree)
@@ -56,6 +58,9 @@
     - [k means](#k-means-1)
     - [boosting](#boosting-1)
     - [svm](#svm)
+- [pros and cons of each classifier/regressor](#pros-and-cons-of-each-classifierregressor)
+  - [Extras](#extras)
+    - [k-folds cross validation](#k-folds-cross-validation)
 
 ## Logistic Regression
 
@@ -277,6 +282,9 @@ Goal: ![](resources/kmeans/Screenshot%20from%202020-04-15%2000-06-39.png)
 Alg: ![](resources/kmeans/Screenshot%20from%202020-04-15%2000-18-58.png)
 >k-means++ is never more than O(log k) away from optimal, and it is sometimes nearly O(1)
 
+- When we pick the kth mean, instead of choosing the absolute farthest away point, we choose a point where the probability thats proportional to the squared distance
+  -   A weighted random choice
+
 
 ### Cluster Initiation
 > Most important choice in running k-means is where to start the means for the clusters.
@@ -307,14 +315,36 @@ Alg: ![](resources/kmeans/Screenshot%20from%202020-04-15%2000-18-58.png)
 
 ## Dimensionality Reduction
 > Process of reducing the number of random variable under consideration by creating a set of principle variables
+- most of the methods we have learned rely on supervised learning, but we want an unsupervised learning
+
+![](resources/kmeans/image25.png)
 
 ### Principal component analysis (PCA)
 - calculate new points with the averages over the given points
 - then, compute covariance
 - then, find the line with the best fit for data
+> Goal: reduce dataset with high dimensionality (>10k) to a dataset with low dimensionality (<100) while retaining data characteristics
+> Motivation: Data compression (ex. reduce data from 2D to 1D)
+>   This halves data requirement, speeds up the alg, and most times improves performance bc reduced dimensional spaces
 
+- tries to minimize projection error
+  - maximum variance and minimum error are reached at the same time
+- Is a linear combination of variables
+
+![](resources/kmeans/Screenshot%20from%202020-04-15%2000-31-55.png)
 ### Principal components
-    
+- Line with max variance and minimum error is 1st principal component
+- as you minimize projection error you maximize the variance
+- eigenvector
+  - for PC1 is the first unit vector
+- Loading scores
+  - are proportions of the original features in the vector
+- Eigenvalue
+  - is square sum of the best line
+- singular value
+  - square root of eigenvalue
+- Principal component 2 is simply the line through the origin that is perpendicular to PC1 without any further optimizations that has been done
+- Any new PC must be perpendicular to all the previous components
 
 ### Minimize data distance to line
 - A strategy in PCA
@@ -327,15 +357,45 @@ Alg: ![](resources/kmeans/Screenshot%20from%202020-04-15%2000-18-58.png)
 
 ### selecting components
 > by using strategies like PCA
+- how many?
+  - Choose new k to be the smallest value such that some threshold amount (like (90%) of variance is retained within those components)
+  - or - elbow method - if you plot num components against variance than when you see the variance decreasing (into an elbow) you can stop there
+  ![](resources/kmeans/image2.png)
 
 
 ### *Visualization of first component, additional components
+- the first PC is going to have a majority of the variance and then each additional component will lower the variance
+
+![](resources/kmeans/image28.png)
 
 ---
 
 ## Overall: highlights of algorithms, *compare and contrast
 
-### NBC
+### Naive Bayes Classifier (NBC)
+- discrete
+- can be much faster than other classification algorithms
+- supervised learning classification algorithm
+- best in text classification
+- must faster than KNN
+- can be used for prediction in real time
+
+#### From my last study guide:
+[Bayes Theorem](resources/extras/bayestheorem.png)
+don't need to calculate if we already have the data (think about play tennis example. we can see (play | overcast) in table)
+- if any two events are independent, then
+```
+P(A,B) = P(A)*P(B)
+```
+
+![Arg Max](resources/extras/argmax.png)
+
+- P(y) = class probability
+- P(x_i|y) = conditional probability
+![Probs](resources/extras/probs.png)
+![Naive Bayes](resources/extras/naivebayes.png)
+####        Gaussian naïve Bayes, Laplace smoothing, NBC for text mining
+- continuous vals associated w/ each feature are assumed to be distributed according to Gaussian (Normal) Dist
 
 ### linear regression
 
@@ -344,6 +404,19 @@ Alg: ![](resources/kmeans/Screenshot%20from%202020-04-15%2000-18-58.png)
 ### decision tree
 
 ### knn
+- supervised lazy classifier
+- difficult to use this for prediction in real time
+- decision boundaries are more complex than decision trees
+- finds similarities between observations due to its inherent nature to optimize locally
+- Strengths:
+  - Intuitive and simple, no assumptions, or training set
+  - Constantly evolves and very easy for mult-class problems
+  - classifier and regression with one hyper parameter
+- Weakness
+  - very slow with the curse of dimensionality
+  - needs homogeneous features with optimal amounts of neighbors
+  - imbalanced data can cause a lot of problems; otlier sensitivity and no capability for missing value treatment
+  - outliers can significantly kill the performance
 
 ### random forest
 
@@ -354,3 +427,25 @@ Alg: ![](resources/kmeans/Screenshot%20from%202020-04-15%2000-18-58.png)
 ### boosting
 
 ### svm
+
+# pros and cons of each classifier/regressor
+
+|                           | pros                                                                                                                                                                                                                                                                                                                              | cons                                                                                                                                                                                                                             |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| logistic regression       |  outputs have nice probabilistic interpretation and the algorithm can be regularized to avoid overfitting. logistic models can be updated easily with new data using stochastic gradient descent                                                                                                                                  |  tends to underperform when there are multiple or non-linear decision boundaries. they are not flexible enough to naturally capture more complex relationships                                                                   |
+| regression/decision trees |  can learn non-linear relationships, and are fairly robust to outliers. ensembles perform v well in practice, winning many classical machine learning competitions                                                                                                                                                                |  unconstrained, individual trees are prone to overfitting because they can keep branching until they memorize the training data. however, this can be alleviated by using ensembles.                                             |
+| KNN                       |                                                                                                                                                                                                                                                                                                                                   |  memory intensive, perform poorly for high-dimensional data, and require meaningful distance function to calc simularity. in practice, training regularized regression or tree ensembles are almost always   better uses of time |
+| logistic regression       | same as above low variance provides probabilities for outcomes works well with diagonal (feature) decision boundaries                                                                                                                                                                                                             | same as above. not flexible enough for complex relationships high bias                                                                                                                                                           |
+| decision trees            | perform v well in practice. robust to outliers, scalable, and able to naturally model non-linear decision boundaries thanks  to their hierarchical structure easy to interpret visually when tree only has a few lvls easily handle qualitative (categorical) features works well w/ decision boundaries parallel to feature axis | unconstrained, indv trees prone to overfitting.  trim the goddamn treeissues w/ diagonal decision boundaries                                                                                                                     |
+| bagged trees              |  reduce variance in comp to reg DTs provide variable importance measures good with qualitative features out of bag estimates can be used for model validation                                                                                                                                                                     |  not easy to visually interpret does not reduce variance if features are correlated                                                                                                                                              |
+| boosted trees             |  somewhat more interpretable than bagged trees/random forests as the user can  define the size of each tree resulting in a collection of stumps (1 lvl)   which can be viewed as an additive model can easily handle qualitative features                                                                                         | can overfit if num of trees is too large                                                                                                                                                                                         |
+| random forest             |  decorrelates trees (important when dealing with muliple features which  may be correlated) reduces variance                                                                                                                                                                                                                      | not easy to visually interpret                                                                                                                                                                                                   |
+| svm                       |  similar to LR when linear separation good with non-linear boundary depending on kernel used handle high dimensional data well                                                                                                                                                                                                    | susceptible to overfitting/trainign issues depending on kernel                                                                                                                                                                   |
+| naive bayes               |  even though conditional independence assumption rarely holds true, NB models   perform surprisingly well in practice, esp for how simple they are. easy to implement, can scale with dataset                                                                                                                                     |  bc of simplicity, they are often beaten by models properly trained and tuned using prev algs listed                                                                                                                             |
+| k-means                   |  most popular clustering alg bc fast, simple, and flexible if you pre-process your data and engineer useful features                                                                                                                                                                                                              |  user must specify num of clusters, which isn't easy to do.  if true underlying clusters in data are no globular, then k-means will produce poor clusters                                                                        |
+
+
+## Extras
+
+### k-folds cross validation
+![](resources/kmeans/Screenshot%20from%202020-04-15%2000-31-55.png)
